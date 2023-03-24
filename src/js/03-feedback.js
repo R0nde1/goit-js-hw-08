@@ -10,12 +10,22 @@ function onInputForm(evt) {
 }
 
 function onFormSubmit(evt) {
-  evt.preventDefault();
-  evt.currentTarget.reset();
-  localStorage.removeItem(CURRENTTEXT_KEY);
-  console.log(dataset);
-  dataset = {};
-}
+    evt.preventDefault(); 
+    const formInputs = Array.from(formEl.querySelectorAll('input'));
+    const isFormComplete = formInputs.every(input => input.value !== '');
+    if (isFormComplete) {
+      evt.currentTarget.submit();
+      evt.currentTarget.reset();
+      localStorage.removeItem(CURRENTTEXT_KEY);
+      console.log(dataset);
+      dataset = {};
+    } else {
+      alert('Будь ласка, заповніть всі поля форми');
+    }
+  }
+  
+  formEl.addEventListener('submit', onFormSubmit);
+  
 
 function inputAfterReload() {
   let savedData = localStorage.getItem(CURRENTTEXT_KEY);
@@ -25,7 +35,7 @@ function inputAfterReload() {
       dataset[name] = value;
       formEl[name].value = value;
     });
-  }
+}
 }
 
 inputAfterReload();
@@ -33,3 +43,7 @@ inputAfterReload();
 formEl.addEventListener('submit', onFormSubmit);
 
 formEl.addEventListener('input', throttle(onInputForm, 500));
+
+
+
+  

@@ -10,21 +10,20 @@ function onInputForm(evt) {
 }
 
 function onFormSubmit(evt) {
-    evt.preventDefault(); 
-    const formInputs = Array.from(formEl.querySelectorAll('input'));
-    const isFormComplete = formInputs.every(input => input.value !== '');
-    if (isFormComplete) {
-      evt.currentTarget.submit();
-      evt.currentTarget.reset();
-      localStorage.removeItem(CURRENTTEXT_KEY);
-      console.log(dataset);
-      dataset = {};
-    } else {
+    evt.preventDefault();
+    if (!dataset.email || !dataset.message) {
       alert('Будь ласка, заповніть всі поля форми');
+      return;
     }
+    evt.currentTarget.submit();
+    evt.currentTarget.reset();
+    localStorage.removeItem(CURRENTTEXT_KEY);
+    console.log(dataset);
+    dataset = {};
   }
   
   formEl.addEventListener('submit', onFormSubmit);
+  
   
 
 function inputAfterReload() {
